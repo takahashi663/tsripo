@@ -13,6 +13,7 @@ public class EmployeeIdReader {
 	 * @throws IllegalArgumentException 不正な入力の場合にスローされる
 	 */
 	public Integer input() throws IOException, IllegalArgumentException {
+		
 		return null;
 	}
 

@@ -2,7 +2,9 @@ package jp.co.sss.crud.db;
 
 import static jp.co.sss.crud.util.ConstantSQL.*;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,17 +24,64 @@ public class EmployeeDAO {
 	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
 	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
 	 */
-	public List<Employee> findAll() throws ClassNotFoundException, SQLException {
+	public static List<Employee> findAll() throws ClassNotFoundException, SQLException {
 		List<Employee> employees = new ArrayList<>();
-		//TODO 以下に実装する
+		Employee employee = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
 
+		try {
+			// DBに接続
+			connection = DBManager.getConnection();
+
+			// ステートメントを作成
+			preparedStatement = connection.prepareStatement( "SELECT * FROM employee e INNER JOIN department d ON e.dept_id = d.dept_id");
+
+			// SQL文を実行
+			resultSet = preparedStatement.executeQuery();
+
+			// レコードの取得
+			while (resultSet.next()) {
+				employee = new Employee();
+				employee.setEmpId(resultSet.getInt("emp_id"));
+				employee.setEmpName(resultSet.getString("emp_name"));
+				employee.setGender(resultSet.getInt("gender"));
+				employee.setBirthday(resultSet.getString("birthday"));
+				employee.setBirthday(resultSet.getString("dept_name"));
+
+				employees.add(employee);
+
+			}
+			}catch(Exception e){
+				e.printStackTrace();
+
+		} finally {
+			// ResultSetをクローズ
+			DBManager.close(resultSet);
+			// Statementをクローズ
+			DBManager.close(preparedStatement);
+			// DBとの接続を切断
+			DBManager.close(connection);
+		}
 		return employees;
 	}
 
+
+	/**
+	 * @param inputString コンソール入力された文字列
+	 * @return 文字列が適正な値であった場合true、そうでない場合はfalseを返す
+	 */
+	public boolean isValid(String inputString) {
+		return false;//1-9999の整数かどうかを判定
+	}
+
+
+
 	/**
 	 * 社員名検索
-	 * 
-	 * @param searchName 検索社員名 
+	 *
+	 * @param searchName 検索社員名
 	 * @return {@code List<Employee>} 検索社員名を含むエンティティリスト
 	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
 	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
@@ -46,7 +95,7 @@ public class EmployeeDAO {
 
 	/**
 	 * 部署ID検索
-	 * 
+	 *
 	 * @param deptId
 	 * @return {@code List<Employee>} 検索部署IDを含むエンティティリスト
 	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
@@ -89,7 +138,7 @@ public class EmployeeDAO {
 	 * <p>引数のEmployeeから社員ID、社員名、性別、生年月日、部署番号を取得し社員情報を更新する。
 	 * <p>buildSQLメソッドを呼び出し、employeeインスタンスの各フィールドがnullでない場合はSQLのSET句に変更するカラムとプレースホルダを結合する
 	 * <p>bindParameterメソッドを呼び出し、組み立てたSQLに応じて値をプレースホルダにバインドする
-	 * 
+	 *
 	 * @param employee
 	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
 	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
@@ -102,7 +151,7 @@ public class EmployeeDAO {
 	/**
 	 * Employeeインスタンスのフィールドがnull出ない場合、SQLのSET句にプレースホルダを結合する。
 	 * 全てのフィールドがnullの場合、nullをreturnする。
-	 * 
+	 *
 	 * @param employee
 	 * @return sqlString 結合したSQL文
 	 */
@@ -150,7 +199,7 @@ public class EmployeeDAO {
 
 	/**
 	 * 入力値に応じて結合したUPDATE文のプレースホルダに対して値をバインドする
-	 * 
+	 *
 	 * @param updateSQL
 	 * @param employee
 	 * @param preparedStatement
@@ -193,7 +242,7 @@ public class EmployeeDAO {
 	/**
 	 * 社員情報を1件削除する
 	 * <br>引数のEmployeeから社員IDから社員情報を削除する。
-	 * @param empId 
+	 * @param empId
 	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
 	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
 	 */

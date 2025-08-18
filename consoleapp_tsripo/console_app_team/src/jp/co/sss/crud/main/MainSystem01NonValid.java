@@ -2,10 +2,14 @@ package jp.co.sss.crud.main;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.channels.SelectableChannel;
+import java.util.ArrayList;
+import java.util.List;
 
 import jp.co.sss.crud.db.EmployeeDAO;
 import jp.co.sss.crud.dto.Department;
 import jp.co.sss.crud.dto.Employee;
+import jp.co.sss.crud.io.EmployeeIdReader;
 
 /**
  * 社員管理システム実行用クラス
@@ -14,21 +18,21 @@ public class MainSystem01NonValid {
 
 	/**
 	 * メイン処理01
-	 * 
+	 *
 	 * <p>メニュー表示から社員削除機能までを実装し、このクラスで呼び出す。
-	 * 
+	 *
 	 * <p>BufferedReaderを用いてコンソールから必要な項目を入力する。
 	 * 入力結果に基づいてEmployeeDAOからメソッドを呼び出し、処理を行う。
 	 * 参照系機能のメソッドを呼び出す場合は戻り値のエンティティリストを受け取り、
 	 * mainメソッド内でデータ表示を行う。
-	 * 
-	 * {@code 
+	 *
+	 * {@code
 	 * 	List<Hoge> list = xxxDAO.find();
 	 * 		for(Hoge hoge : list){
 	 * 			System.out.println(hoge);
 	 * 		}
 	 * }
-	 * 
+	 *
 	 * 例外処理はExceptionをキャッチする
 	 * 	"システムエラーが発生しました"と出力し、スタックトレースを出力する。
 	 * 	その後、ループを抜けてシステムを終了する。
@@ -46,6 +50,7 @@ public class MainSystem01NonValid {
 		EmployeeDAO employeeDAO = new EmployeeDAO();
 
 		int menuNo = 0;
+		List<Employee> employees;
 		try {
 			do {
 				// メニューの表示
@@ -68,6 +73,12 @@ public class MainSystem01NonValid {
 				case 1:
 					System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
 					//TODO 以下に実装する
+
+					employees = employeeDAO.findAll();
+					for(Employee emp:employees){
+						System.out.println(emp);
+					}
+
 
 					break;
 
@@ -119,5 +130,6 @@ public class MainSystem01NonValid {
 		}
 		System.out.println("システムを終了します。");
 	}
+
 
 }

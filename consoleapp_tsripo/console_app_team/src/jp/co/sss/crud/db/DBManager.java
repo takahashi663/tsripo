@@ -14,7 +14,8 @@ public class DBManager {
 	//接続情報を記述すること
 
 	/** 接続するDBのURL */
-	private static final String URL = "oracle.jdbc.driver.OracleDriver";
+	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
+	private static final String URL = "jdbc:oracle:thin:@localhost:1521/xepdb1";
 
 	/** DB接続するためのユーザ名 */
 	private static final String USER_NAME = "console_crud_user";
