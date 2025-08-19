@@ -94,8 +94,8 @@ public class EmployeeDAO {
 	 * @return {@code List<Employee>} 検索社員名を含むエンティティリスト
 	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
 	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
-	 * @throws IOException 
-	 * @throws IllegalArgumentException 
+	 * @throws IOException
+	 * @throws IllegalArgumentException
 	 */
 	public List<Employee> findByEmployeeName(String searchName) throws ClassNotFoundException, SQLException, IllegalArgumentException, IOException {
 		List<Employee> employees = new ArrayList<>();
@@ -106,9 +106,9 @@ public class EmployeeDAO {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		
-		
-		
+
+
+
 		try {
 			// DBに接続
 			connection = DBManager.getConnection();
@@ -116,7 +116,7 @@ public class EmployeeDAO {
 			// ステートメントを作成
 
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_FIND_BY_EMP_NAME);
-			
+
 			//入力値をバインド
 			preparedStatement.setString(1,"%" + searchName + "%");
 
@@ -128,21 +128,21 @@ public class EmployeeDAO {
 			while (resultSet.next()) {
 				employee = new Employee();
 				department = new Department();
-				
+
 				employee.setEmpId(resultSet.getInt("emp_Id"));
 				employee.setEmpName(resultSet.getString("emp_Name"));
 				employee.setGender(resultSet.getInt("gender"));
 				employee.setBirthday(resultSet.getString("birthday"));
 				department.setDeptName(resultSet.getString("dept_Name"));
 				employee.setDepartment(department);
-				
-				
+
+
 
 				employees.add(employee);
-				
-				
+
+
 			}
-			
+
 
 		} finally {
 			// ResultSetをクローズ
@@ -155,23 +155,78 @@ public class EmployeeDAO {
 
 		return employees;
 	}
-	
+
 	public boolean isValname(String  inputString) {
 		return false;
 	}
 	/**
 	 * 部署ID検索
 	 *
-	 * @param deptId
+	 * @param dept_Id
 	 * @return {@code List<Employee>} 検索部署IDを含むエンティティリスト
 	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
 	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
 	 */
-	public List<Employee> findByDeptId(int deptId) throws ClassNotFoundException, SQLException {
+	public List<Employee> findByDeptId(int dept_Id) throws ClassNotFoundException, SQLException {
 		List<Employee> employees = new ArrayList<>();
 		//TODO 以下に実装する
+		Employee employee = null;
+		Department department = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+
+
+		try {
+			// DBに接続
+			connection = DBManager.getConnection();
+
+			// ステートメントを作成
+
+			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_FIND_BY_EMP_NAME);
+
+			//入力値をバインド
+			preparedStatement.setInt(1,dept_Id);
+
+
+			// SQL文を実行
+			resultSet = preparedStatement.executeQuery();
+
+			// レコードの取得
+			while (resultSet.next()) {
+				employee = new Employee();
+				department = new Department();
+
+				employee.setEmpId(resultSet.getInt("emp_Id"));
+				employee.setEmpName(resultSet.getString("emp_Name"));
+				employee.setGender(resultSet.getInt("gender"));
+				employee.setBirthday(resultSet.getString("birthday"));
+				department.setDeptName(resultSet.getString("dept_Name"));
+				employee.setDepartment(department);
+
+
+
+				employees.add(employee);
+
+
+			}
+
+
+		} finally {
+			// ResultSetをクローズ
+			DBManager.close(resultSet);
+			// Statementをクローズ
+			DBManager.close(preparedStatement);
+			// DBとの接続を切断
+			DBManager.close(connection);
+		}
 
 		return employees;
+	}
+
+	public boolean isValdeptid(String  inputString) {
+		return false;
 	}
 
 	/**

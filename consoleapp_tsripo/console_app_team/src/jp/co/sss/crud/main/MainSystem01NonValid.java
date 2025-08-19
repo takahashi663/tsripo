@@ -35,10 +35,10 @@ public class MainSystem01NonValid {
 	 * 例外処理はExceptionをキャッチする
 	 * 	"システムエラーが発生しました"と出力し、スタックトレースを出力する。
 	 * 	その後、ループを抜けてシステムを終了する。
-	 * @throws IOException 
-	 * @throws IllegalArgumentException 
-	 * @throws SQLException 
-	 * @throws ClassNotFoundException 
+	 * @throws IOException
+	 * @throws IllegalArgumentException
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
 	 *
 	 */
 	public static void main(String[] args) throws IllegalArgumentException, IOException, ClassNotFoundException, SQLException {
@@ -48,7 +48,7 @@ public class MainSystem01NonValid {
 		//エンティティ
 		Employee employee = new Employee();
 		Department department = new Department();
-		
+
 
 		//データベースアクセス
 		EmployeeDAO employeeDAO = new EmployeeDAO();
@@ -94,17 +94,31 @@ public class MainSystem01NonValid {
 					if (employees.isEmpty()) {
 						System.out.println("該当する社員は存在しません。");
 					}else {
-					
+
 					for(Employee emp:employees){
-					
+
 					System.out.println(emp);
 					}
-					}	
+					}
 					break;
 
 				case 3:
 					System.out.print("部署ID(1：営業部、2：経理部、3：総務部)を入力してください: ");
 					//TODO 以下に実装する
+					String dept_Id = br.readLine();
+					int num = Integer.parseInt(dept_Id);
+					employees = employeeDAO.findByDeptId(num);
+					if (employees.addAll(employees)) {
+						for(Employee emp:employees){
+
+							System.out.println(emp);
+							}
+
+					}else {
+						System.out.println("該当する社員は存在しません。");
+
+
+					}
 
 					break;
 
@@ -140,14 +154,14 @@ public class MainSystem01NonValid {
 			} while (menuNo != 7);
 		} catch (Exception e) {
 			//TODO 以下に実装する
-	
-			
 
-                
+
+
+
 
 			}
 
-		
+
 		System.out.println("システムを終了します。");
 	}
 
