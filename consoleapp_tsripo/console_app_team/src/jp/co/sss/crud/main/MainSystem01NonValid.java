@@ -1,15 +1,14 @@
 package jp.co.sss.crud.main;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.channels.SelectableChannel;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
 import jp.co.sss.crud.db.EmployeeDAO;
 import jp.co.sss.crud.dto.Department;
 import jp.co.sss.crud.dto.Employee;
-import jp.co.sss.crud.io.EmployeeIdReader;
 
 /**
  * 社員管理システム実行用クラス
@@ -36,15 +35,20 @@ public class MainSystem01NonValid {
 	 * 例外処理はExceptionをキャッチする
 	 * 	"システムエラーが発生しました"と出力し、スタックトレースを出力する。
 	 * 	その後、ループを抜けてシステムを終了する。
+	 * @throws IOException 
+	 * @throws IllegalArgumentException 
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 *
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IllegalArgumentException, IOException, ClassNotFoundException, SQLException {
 		//コンソール入力準備
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		//エンティティ
 		Employee employee = new Employee();
 		Department department = new Department();
+		
 
 		//データベースアクセス
 		EmployeeDAO employeeDAO = new EmployeeDAO();
@@ -85,7 +89,17 @@ public class MainSystem01NonValid {
 				case 2:
 					System.out.print("社員名を入力してください:");
 					//TODO 以下に実装する
-
+					String emp_Name = br.readLine();
+					employees = employeeDAO.findByEmployeeName(emp_Name);
+					if (employees.isEmpty()) {
+						System.out.println("該当する社員は存在しません。");
+					}else {
+					
+					for(Employee emp:employees){
+					
+					System.out.println(emp);
+					}
+					}	
 					break;
 
 				case 3:
@@ -126,8 +140,14 @@ public class MainSystem01NonValid {
 			} while (menuNo != 7);
 		} catch (Exception e) {
 			//TODO 以下に実装する
+	
+			
 
-		}
+                
+
+			}
+
+		
 		System.out.println("システムを終了します。");
 	}
 

@@ -111,10 +111,11 @@ public class MainSystem02ImplementsValid {
 
 			} catch (IOException | ClassNotFoundException | SQLException e) {//case 1 全件検索を実装するとコンパイルエラーは解消する
 				//TODO 以下に実装する
+				
 
 			} catch (IllegalArgumentException e) {
 				//TODO 以下に実装する
-
+				
 			}
 		} while (menuNo != 7);
 		System.out.println("システムを終了します。");
