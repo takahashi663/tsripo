@@ -9,7 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.co.sss.crud.dto.Department;
 import jp.co.sss.crud.dto.Employee;
+import jp.co.sss.crud.util.ConstantSQL;
 
 /**
  * データベース操作用クラス
@@ -27,6 +29,7 @@ public class EmployeeDAO {
 	public static List<Employee> findAll() throws ClassNotFoundException, SQLException {
 		List<Employee> employees = new ArrayList<>();
 		Employee employee = null;
+		Department department = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -36,7 +39,9 @@ public class EmployeeDAO {
 			connection = DBManager.getConnection();
 
 			// ステートメントを作成
-			preparedStatement = connection.prepareStatement( "SELECT * FROM employee e INNER JOIN department d ON e.dept_id = d.dept_id");
+
+			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_FIND_ALL);
+
 
 			// SQL文を実行
 			resultSet = preparedStatement.executeQuery();
@@ -44,11 +49,13 @@ public class EmployeeDAO {
 			// レコードの取得
 			while (resultSet.next()) {
 				employee = new Employee();
-				employee.setEmpId(resultSet.getInt("emp_id"));
-				employee.setEmpName(resultSet.getString("emp_name"));
+				department = new Department();
+				employee.setEmpId(resultSet.getInt("emp_Id"));
+				employee.setEmpName(resultSet.getString("emp_Name"));
 				employee.setGender(resultSet.getInt("gender"));
 				employee.setBirthday(resultSet.getString("birthday"));
-				employee.setBirthday(resultSet.getString("dept_name"));
+				department.setDeptName(resultSet.getString("dept_Name"));
+				employee.setDepartment(department);
 
 				employees.add(employee);
 
