@@ -239,8 +239,48 @@ public class EmployeeDAO {
 	 */
 	public void insert(Employee employee) throws ClassNotFoundException, SQLException {
 		//TODO 以下に実装する
+		Employee emp = new Employee();
+		Department department = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		try {
+			// DBに接続
+			connection = DBManager.getConnection();
 
+			// ステートメントを作成
+			
+			preparedStatement = connection.prepareStatement(ConstantSQL. SQL_INSERT);
+
+			//入力値をバインド
+			preparedStatement.setString(1,emp.getEmpName());
+			preparedStatement.setInt(2,emp.getGender());
+			preparedStatement.setString(3,emp.getBirthday());
+			preparedStatement.setInt(4,department.getDeptId());
+			
+			
+			
+			
+			
+
+			// SQL文を実行
+			int cnt = preparedStatement.executeUpdate();
+			System.out.println("社員情報を登録しました");
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+	} finally {
+	
+		// Statementをクローズ
+		DBManager.close(preparedStatement);
+		// DBとの接続を切断
+		DBManager.close(connection);
 	}
+
+	return;
+	
+	
+}
 
 	/**
 	 * 社員情報を1件更新する
