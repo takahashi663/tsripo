@@ -108,7 +108,7 @@ public class MainSystem01NonValid {
 					String dept_Id = br.readLine();
 					int num = Integer.parseInt(dept_Id);
 					employees = employeeDAO.findByDeptId(num);
-					if (employees.addAll(employees)) {
+					if (employees) {
 						for(Employee emp:employees){
 
 							System.out.println(emp);
