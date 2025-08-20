@@ -234,6 +234,7 @@ public class EmployeeDAO {
 	 * <br>引数のEmployeeから社員名、性別、生年月日、部署番号を取得し新たな社員情報を生成する。
 	 * <br>社員IDは自動採番機能を用いること
 	 * @param employee
+	 * @return 
 	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
 	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
 	 */
@@ -257,7 +258,7 @@ public class EmployeeDAO {
 			preparedStatement.setInt(2,emp.getGender());
 			preparedStatement.setString(3,emp.getBirthday());
 			preparedStatement.setInt(4,department.getDeptId());
-			
+			employee.setDepartment(department);
 			
 			
 			
@@ -277,7 +278,7 @@ public class EmployeeDAO {
 		DBManager.close(connection);
 	}
 
-	return;
+	return ;
 	
 	
 }
@@ -411,5 +412,8 @@ public class EmployeeDAO {
 		//TODO 以下に実装する
 
 	}
+
+
+
 
 }

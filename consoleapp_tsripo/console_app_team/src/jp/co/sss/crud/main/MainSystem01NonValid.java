@@ -123,18 +123,31 @@ public class MainSystem01NonValid {
 				case 4:
 					//TODO 以下に実装する
 					
+				
+					
+					
+					
+					
+					
 					System.out.print("社員名:");
-					String empName = br.readLine();
+					employee.setEmpName(br.readLine());
 					System.out.print("性別(1:男性, 2:女性):");
-					String gender = br.readLine();
+					String inputgender = br.readLine();
+					int gender = Integer.parseInt(inputgender);
+				    employee.setGender(gender);
+				   
 					System.out.print("生年月日(西暦年/月/日):");
-					String birthday = br.readLine();
+					employee.setBirthday(br.readLine());
 					System.out.print("部署ID(1:営業部、2:経理部、3:総務部):");
-					String deptId = br.readLine();
-					
-					
-
+					String inputdeptid = br.readLine();
+					int deptid = Integer.parseInt(inputdeptid);
+				    department.setDeptId(deptid);
+					employee.setDepartment(department);
+				
+				 employeeDAO.insert(employee);
+				
 					break;
+				
 
 				case 5:
 					//TODO 以下に実装する
