@@ -184,7 +184,7 @@ public class EmployeeDAO {
 
 			// ステートメントを作成
 
-			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_FIND_BY_EMP_NAME);
+			preparedStatement = connection.prepareStatement(ConstantSQL. SQL_FIND_BY_DEPTID );
 
 			//入力値をバインド
 			preparedStatement.setInt(1,dept_Id);

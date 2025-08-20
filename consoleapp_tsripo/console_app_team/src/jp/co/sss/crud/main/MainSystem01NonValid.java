@@ -108,16 +108,14 @@ public class MainSystem01NonValid {
 					String dept_Id = br.readLine();
 					int num = Integer.parseInt(dept_Id);
 					employees = employeeDAO.findByDeptId(num);
-					if (employees) {
-						for(Employee emp:employees){
-
-							System.out.println(emp);
-							}
-
-					}else {
+					if (employees.isEmpty()) {
 						System.out.println("該当する社員は存在しません。");
+					}else {
 
+					for(Employee emp:employees){
 
+					System.out.println(emp);
+					}
 					}
 
 					break;
