@@ -44,7 +44,6 @@ public class EmployeeDAO {
 
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_FIND_ALL);
 
-
 			// SQL文を実行
 			resultSet = preparedStatement.executeQuery();
 
@@ -62,8 +61,8 @@ public class EmployeeDAO {
 				employees.add(employee);
 
 			}
-			}catch(Exception e){
-				e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 
 		} finally {
 			// ResultSetをクローズ
@@ -76,7 +75,6 @@ public class EmployeeDAO {
 		return employees;
 	}
 
-
 	/**
 	 * @param inputString コンソール入力された文字列
 	 * @return 文字列が適正な値であった場合true、そうでない場合はfalseを返す
@@ -84,8 +82,6 @@ public class EmployeeDAO {
 	public boolean isValid(String inputString) {
 		return false;//1-9999の整数かどうかを判定
 	}
-
-
 
 	/**
 	 * 社員名検索
@@ -97,17 +93,16 @@ public class EmployeeDAO {
 	 * @throws IOException
 	 * @throws IllegalArgumentException
 	 */
-	public List<Employee> findByEmployeeName(String searchName) throws ClassNotFoundException, SQLException, IllegalArgumentException, IOException {
+	public List<Employee> findByEmployeeName(String searchName)
+			throws ClassNotFoundException, SQLException, IllegalArgumentException, IOException {
 		List<Employee> employees = new ArrayList<>();
 		//TODO 以下に実装する
-		EmployeeNameReader  employeeNameReader = null;
+		EmployeeNameReader employeeNameReader = null;
 		Employee employee = null;
 		Department department = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-
-
 
 		try {
 			// DBに接続
@@ -118,8 +113,7 @@ public class EmployeeDAO {
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_FIND_BY_EMP_NAME);
 
 			//入力値をバインド
-			preparedStatement.setString(1,"%" + searchName + "%");
-
+			preparedStatement.setString(1, "%" + searchName + "%");
 
 			// SQL文を実行
 			resultSet = preparedStatement.executeQuery();
@@ -136,13 +130,9 @@ public class EmployeeDAO {
 				department.setDeptName(resultSet.getString("dept_Name"));
 				employee.setDepartment(department);
 
-
-
 				employees.add(employee);
 
-
 			}
-
 
 		} finally {
 			// ResultSetをクローズ
@@ -156,9 +146,10 @@ public class EmployeeDAO {
 		return employees;
 	}
 
-	public boolean isValname(String  inputString) {
+	public boolean isValname(String inputString) {
 		return false;
 	}
+
 	/**
 	 * 部署ID検索
 	 *
@@ -176,19 +167,16 @@ public class EmployeeDAO {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 
-
-
 		try {
 			// DBに接続
 			connection = DBManager.getConnection();
 
 			// ステートメントを作成
 
-			preparedStatement = connection.prepareStatement(ConstantSQL. SQL_FIND_BY_DEPTID );
+			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_FIND_BY_DEPTID);
 
 			//入力値をバインド
-			preparedStatement.setInt(1,dept_Id);
-
+			preparedStatement.setInt(1, dept_Id);
 
 			// SQL文を実行
 			resultSet = preparedStatement.executeQuery();
@@ -205,13 +193,9 @@ public class EmployeeDAO {
 				department.setDeptName(resultSet.getString("dept_Name"));
 				employee.setDepartment(department);
 
-
-
 				employees.add(employee);
 
-
 			}
-
 
 		} finally {
 			// ResultSetをクローズ
@@ -225,7 +209,7 @@ public class EmployeeDAO {
 		return employees;
 	}
 
-	public boolean isValdeptid(String  inputString) {
+	public boolean isValdeptid(String inputString) {
 		return false;
 	}
 
@@ -240,48 +224,41 @@ public class EmployeeDAO {
 	 */
 	public void insert(Employee employee) throws ClassNotFoundException, SQLException {
 		//TODO 以下に実装する
-		Employee emp = new Employee();
+
 		Department department = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
 			// DBに接続
 			connection = DBManager.getConnection();
 
 			// ステートメントを作成
-			
-			preparedStatement = connection.prepareStatement(ConstantSQL. SQL_INSERT);
+
+			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_INSERT);
 
 			//入力値をバインド
-			preparedStatement.setString(1,emp.getEmpName());
-			preparedStatement.setInt(2,emp.getGender());
-			preparedStatement.setString(3,emp.getBirthday());
-			preparedStatement.setInt(4,department.getDeptId());
+			preparedStatement.setString(1, employee.getEmpName());
+			preparedStatement.setInt(2, employee.getGender());
+			preparedStatement.setString(3, employee.getBirthday());
+			preparedStatement.setInt(4, employee.getDepartment().getDeptId());
 			employee.setDepartment(department);
-			
-			
-			
-			
 
 			// SQL文を実行
 			int cnt = preparedStatement.executeUpdate();
-			System.out.println("社員情報を登録しました");
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-	} finally {
-	
-		// Statementをクローズ
-		DBManager.close(preparedStatement);
-		// DBとの接続を切断
-		DBManager.close(connection);
-	}
+			System.out.println(cnt + "社員情報を登録しました");
 
-	return ;
-	
-	
-}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+
+			// Statementをクローズ
+			DBManager.close(preparedStatement);
+			// DBとの接続を切断
+			DBManager.close(connection);
+		}
+
+	}
 
 	/**
 	 * 社員情報を1件更新する
@@ -412,8 +389,5 @@ public class EmployeeDAO {
 		//TODO 以下に実装する
 
 	}
-
-
-
 
 }
