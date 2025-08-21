@@ -1,6 +1,6 @@
 package jp.co.sss.crud.db;
 
-import static jp.co.sss.crud.util.ConstantSQL.SQL_UPDATE_BASE;
+import static jp.co.sss.crud.util.ConstantSQL.*;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -291,7 +291,7 @@ public class EmployeeDAO {
 
 			// SQL文を実行
 			int cnt = preparedStatement.executeUpdate();
-			System.out.println(cnt + "社員情報を更新しました");
+			System.out.println("対象者がいませんでした");
 
 		} catch (Exception e) {
 			e.printStackTrace();
