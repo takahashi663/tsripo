@@ -290,11 +290,17 @@ public class EmployeeDAO {
 			employee.setDepartment(department);
 
 			// SQL文を実行
+
 			int cnt = preparedStatement.executeUpdate();
-			System.out.println("対象者がいませんでした");
+			if (cnt == 1) {
+				System.out.println("社員情報を更新しました");
+			} else {
+				System.out.println("対象者がいませんでした");
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
+
 		} finally {
 
 			// Statementをクローズ
@@ -423,7 +429,39 @@ public class EmployeeDAO {
 	 */
 	public void delete(Integer empId) throws ClassNotFoundException, SQLException {
 		// TODO 以下に実装する
+		Department department = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
 
+		try {
+			// DBに接続
+			connection = DBManager.getConnection();
+
+			// ステートメントを作成
+
+			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_DELETE);
+
+			// 入力値をバインド
+			preparedStatement.setInt(1, empId);
+
+			// SQL文を実行
+			int cnt = preparedStatement.executeUpdate();
+			if (cnt == 1) {
+				System.out.println("社員情報を削除しました");
+			} else {
+				System.out.println("対象者がいませんでした");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+
+			// Statementをクローズ
+			DBManager.close(preparedStatement);
+			// DBとの接続を切断
+			DBManager.close(connection);
+		}
 	}
 
 }
