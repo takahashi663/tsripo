@@ -1,6 +1,6 @@
 package jp.co.sss.crud.db;
 
-import static jp.co.sss.crud.util.ConstantSQL.*;
+import static jp.co.sss.crud.util.ConstantSQL.SQL_UPDATE_BASE;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,8 +16,7 @@ import jp.co.sss.crud.io.EmployeeNameReader;
 import jp.co.sss.crud.util.ConstantSQL;
 
 /**
- * データベース操作用クラス
- * DAOのメソッドをSystemMainクラスで呼び出す
+ * データベース操作用クラス DAOのメソッドをSystemMainクラスで呼び出す
  */
 public class EmployeeDAO {
 
@@ -26,7 +25,7 @@ public class EmployeeDAO {
 	 *
 	 * @return {@code List<Employee>} 全社員エンティティリスト
 	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
-	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
+	 * @throws SQLException           データベース操作時にエラーが発生した場合に送出
 	 */
 	public static List<Employee> findAll() throws ClassNotFoundException, SQLException {
 		List<Employee> employees = new ArrayList<>();
@@ -80,7 +79,7 @@ public class EmployeeDAO {
 	 * @return 文字列が適正な値であった場合true、そうでない場合はfalseを返す
 	 */
 	public boolean isValid(String inputString) {
-		return false;//1-9999の整数かどうかを判定
+		return false;// 1-9999の整数かどうかを判定
 	}
 
 	/**
@@ -88,15 +87,15 @@ public class EmployeeDAO {
 	 *
 	 * @param searchName 検索社員名
 	 * @return {@code List<Employee>} 検索社員名を含むエンティティリスト
-	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
-	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
+	 * @throws ClassNotFoundException   ドライバクラスが存在しない場合に送出
+	 * @throws SQLException             データベース操作時にエラーが発生した場合に送出
 	 * @throws IOException
 	 * @throws IllegalArgumentException
 	 */
 	public List<Employee> findByEmployeeName(String searchName)
 			throws ClassNotFoundException, SQLException, IllegalArgumentException, IOException {
 		List<Employee> employees = new ArrayList<>();
-		//TODO 以下に実装する
+		// TODO 以下に実装する
 		EmployeeNameReader employeeNameReader = null;
 		Employee employee = null;
 		Department department = null;
@@ -112,7 +111,7 @@ public class EmployeeDAO {
 
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_FIND_BY_EMP_NAME);
 
-			//入力値をバインド
+			// 入力値をバインド
 			preparedStatement.setString(1, "%" + searchName + "%");
 
 			// SQL文を実行
@@ -156,11 +155,11 @@ public class EmployeeDAO {
 	 * @param dept_Id
 	 * @return {@code List<Employee>} 検索部署IDを含むエンティティリスト
 	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
-	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
+	 * @throws SQLException           データベース操作時にエラーが発生した場合に送出
 	 */
 	public List<Employee> findByDeptId(int dept_Id) throws ClassNotFoundException, SQLException {
 		List<Employee> employees = new ArrayList<>();
-		//TODO 以下に実装する
+		// TODO 以下に実装する
 		Employee employee = null;
 		Department department = null;
 		Connection connection = null;
@@ -175,7 +174,7 @@ public class EmployeeDAO {
 
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_FIND_BY_DEPTID);
 
-			//入力値をバインド
+			// 入力値をバインド
 			preparedStatement.setInt(1, dept_Id);
 
 			// SQL文を実行
@@ -214,17 +213,17 @@ public class EmployeeDAO {
 	}
 
 	/**
-	 * 登録
-	 * <br>引数のEmployeeから社員名、性別、生年月日、部署番号を取得し新たな社員情報を生成する。
-	 * <br>社員IDは自動採番機能を用いること
+	 * 登録 <br>
+	 * 引数のEmployeeから社員名、性別、生年月日、部署番号を取得し新たな社員情報を生成する。 <br>
+	 * 社員IDは自動採番機能を用いること
+	 *
 	 * @param employee
-	 * @return 
+	 * @return
 	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
-	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
+	 * @throws SQLException           データベース操作時にエラーが発生した場合に送出
 	 */
 	public void insert(Employee employee) throws ClassNotFoundException, SQLException {
-		//TODO 以下に実装する
-
+		// TODO 以下に実装する
 		Department department = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -237,7 +236,7 @@ public class EmployeeDAO {
 
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_INSERT);
 
-			//入力値をバインド
+			// 入力値をバインド
 			preparedStatement.setString(1, employee.getEmpName());
 			preparedStatement.setInt(2, employee.getGender());
 			preparedStatement.setString(3, employee.getBirthday());
@@ -261,30 +260,66 @@ public class EmployeeDAO {
 	}
 
 	/**
-	 * 社員情報を1件更新する
-	 * <br>引数のEmployeeから社員ID、社員名、性別、生年月日、部署番号を取得し社員情報を更新する。
+	 * 社員情報を1件更新する <br>
+	 * 引数のEmployeeから社員ID、社員名、性別、生年月日、部署番号を取得し社員情報を更新する。
+	 *
 	 * @param employee
 	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
-	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
+	 * @throws SQLException           データベース操作時にエラーが発生した場合に送出
 	 */
 	public void update(Employee employee) throws ClassNotFoundException, SQLException {
-		//TODO 以下に実装する
+		// TODO 以下に実装する
+		Department department = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			// DBに接続
+			connection = DBManager.getConnection();
+
+			// ステートメントを作成
+
+			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_UPDATE);
+
+			// 入力値をバインド
+			preparedStatement.setInt(5, employee.getEmpId());
+			preparedStatement.setString(1, employee.getEmpName());
+			preparedStatement.setInt(2, employee.getGender());
+			preparedStatement.setString(3, employee.getBirthday());
+			preparedStatement.setInt(4, employee.getDepartment().getDeptId());
+			employee.setDepartment(department);
+
+			// SQL文を実行
+			int cnt = preparedStatement.executeUpdate();
+			System.out.println(cnt + "社員情報を更新しました");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+
+			// Statementをクローズ
+			DBManager.close(preparedStatement);
+			// DBとの接続を切断
+			DBManager.close(connection);
+		}
 
 	}
 
 	/**
 	 * 入力された項目のみ社員情報を1件更新する
-	 * <p>引数のEmployeeから社員ID、社員名、性別、生年月日、部署番号を取得し社員情報を更新する。
-	 * <p>buildSQLメソッドを呼び出し、employeeインスタンスの各フィールドがnullでない場合はSQLのSET句に変更するカラムとプレースホルダを結合する
-	 * <p>bindParameterメソッドを呼び出し、組み立てたSQLに応じて値をプレースホルダにバインドする
+	 * <p>
+	 * 引数のEmployeeから社員ID、社員名、性別、生年月日、部署番号を取得し社員情報を更新する。
+	 * <p>
+	 * buildSQLメソッドを呼び出し、employeeインスタンスの各フィールドがnullでない場合はSQLのSET句に変更するカラムとプレースホルダを結合する
+	 * <p>
+	 * bindParameterメソッドを呼び出し、組み立てたSQLに応じて値をプレースホルダにバインドする
 	 *
 	 * @param employee
 	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
-	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
+	 * @throws SQLException           データベース操作時にエラーが発生した場合に送出
 	 */
 	public void updateOptional(Employee employee) throws ClassNotFoundException, SQLException {
-		//TODO 以下に実装する
-
+		// TODO 以下に実装する
 	}
 
 	/**
@@ -299,7 +334,7 @@ public class EmployeeDAO {
 		StringBuilder sqlBuilder = new StringBuilder(SQL_UPDATE_BASE);
 		boolean shouldUpdate = false;
 
-		/*空文字でない場合は更新句をSQLに結合する*/
+		/* 空文字でない場合は更新句をSQLに結合する */
 		if (employee.getEmpName() != null) {
 			sqlBuilder.append(" emp_name = ?,");
 			shouldUpdate = true;
@@ -320,16 +355,16 @@ public class EmployeeDAO {
 			shouldUpdate = true;
 		}
 
-		//変更点がない場合はnullを戻す
+		// 変更点がない場合はnullを戻す
 		if (!shouldUpdate) {
 			return null;
 		}
 
-		//末尾のカンマを削除
+		// 末尾のカンマを削除
 		sqlBuilder.deleteCharAt(sqlBuilder.length() - 1);
-		//WHERE句の結合
+		// WHERE句の結合
 		sqlBuilder.append(" WHERE emp_id = ?");
-		//String型への変換
+		// String型への変換
 		String sqlString = sqlBuilder.toString();
 
 		return sqlString;
@@ -349,7 +384,7 @@ public class EmployeeDAO {
 
 		int paramIndex = 1;
 
-		/*更新句がある場合はプレースホルダにバインドする*/
+		/* 更新句がある場合はプレースホルダにバインドする */
 		if (updateSQL.contains("emp_name")) {
 			preparedStatement.setString(paramIndex, employee.getEmpName());
 			paramIndex++;
@@ -379,14 +414,15 @@ public class EmployeeDAO {
 	}
 
 	/**
-	 * 社員情報を1件削除する
-	 * <br>引数のEmployeeから社員IDから社員情報を削除する。
+	 * 社員情報を1件削除する <br>
+	 * 引数のEmployeeから社員IDから社員情報を削除する。
+	 *
 	 * @param empId
 	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
-	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
+	 * @throws SQLException           データベース操作時にエラーが発生した場合に送出
 	 */
 	public void delete(Integer empId) throws ClassNotFoundException, SQLException {
-		//TODO 以下に実装する
+		// TODO 以下に実装する
 
 	}
 
