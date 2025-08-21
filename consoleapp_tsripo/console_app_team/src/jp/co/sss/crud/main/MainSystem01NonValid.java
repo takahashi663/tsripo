@@ -145,26 +145,22 @@ public class MainSystem01NonValid {
 					String inputempid = br.readLine();
 					int empid = Integer.parseInt(inputempid);
 					employee.setEmpId(empid);
-					if (empid != employee.getEmpId()) {
-						System.out.println("対象者がいませんでした");
-					} else {
 
-						System.out.print("社員名:");
-						employee.setEmpName(br.readLine());
-						System.out.print("性別(0:回答しない, 1:男性, 2:女性, 9:その他):");
-						String inputgender2 = br.readLine();
-						int gender2 = Integer.parseInt(inputgender2);
-						employee.setGender(gender2);
-						System.out.print("生年月日(西暦年/月/日):");
-						employee.setBirthday(br.readLine());
-						System.out.print("部署ID(1:営業部、2:経理部、3:総務部):");
-						String inputdeptid2 = br.readLine();
-						int deptid2 = Integer.parseInt(inputdeptid2);
-						department.setDeptId(deptid2);
-						employee.setDepartment(department);
-						employeeDAO.update(employee);
+					System.out.print("社員名:");
+					employee.setEmpName(br.readLine());
+					System.out.print("性別(0:回答しない, 1:男性, 2:女性, 9:その他):");
+					String inputgender2 = br.readLine();
+					int gender2 = Integer.parseInt(inputgender2);
+					employee.setGender(gender2);
+					System.out.print("生年月日(西暦年/月/日):");
+					employee.setBirthday(br.readLine());
+					System.out.print("部署ID(1:営業部、2:経理部、3:総務部):");
+					String inputdeptid2 = br.readLine();
+					int deptid2 = Integer.parseInt(inputdeptid2);
+					department.setDeptId(deptid2);
+					employee.setDepartment(department);
+					employeeDAO.update(employee);
 
-					}
 					break;
 
 				case 6:
